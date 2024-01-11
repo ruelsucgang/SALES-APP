@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using sales.domain.Entities;
 using sales.infra.DTOs;
@@ -7,7 +8,8 @@ using sales.infra.Interfaces;
 namespace sales.API.Controllers
 {
     [ApiController] 
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
