@@ -25,6 +25,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // register services
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// register customer repositories and services
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IOtpRepository, OtpRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOtpService, OtpService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddControllers();
 
