@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -31,13 +31,17 @@ builder.Services.AddScoped<IOtpRepository, OtpRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddControllers();
 
 // fluentvalidation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+//===================================
 // JWT Authentication:  SECTION START
+//===================================
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 
@@ -59,12 +63,27 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
     };
 });
+//===================================
 // JWT Authentication: SECTION END
+//===================================
 
+//===================================
+// Payment Gateway Configuration: SECTION START
+//===================================
+var useMockPayment = builder.Configuration.GetValue<bool>("PaymentSettings:UseMock");
+
+if (useMockPayment)
+{
+    builder.Services.AddSingleton<IPaymentGateway, MockPaymentGateway>();
+    Console.WriteLine("Using MOCK Payment Gateway");
+}
+
+//===================================
+// Payment Gateway Configuration: SECTION END
+//===================================
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
