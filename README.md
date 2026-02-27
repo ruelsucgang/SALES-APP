@@ -1,5 +1,7 @@
 # Sales App (ASP.NET Core REST API)
 
+**Author:** Ruel B. Sucgang
+
 This is a simple sample REST API built with ASP.NET Core to demonstrate backend development skills, including clean layered architecture, structured endpoints, and database integration. Designed to illustrate my approach to building maintainable and testable backend systems
 
 ## Technologies Used
